@@ -1,0 +1,33 @@
+{
+  "environment": "dev",
+  "server": {
+    "baseUrl": {
+      "dev": "ec2-3-110-155-51.ap-south-1.compute.amazonaws.com"
+    },
+    "port": {
+      "dev": "80"
+    },
+    "protocol": {
+      "dev": "http"
+    }
+  },
+  "theme": {
+    "primaryThemeBackgroundColor": "1B89A1",
+    "primaryThemeForegroundColor": "9d6055",
+    "primaryThemeTextColor": "FFFFFF",
+    "primaryTextSize": "14",
+    "secondaryTextSize": "12",
+    "appBarBackgroundColor": "1B89A1",
+    "appBarForegroundColor": "FFFFFF",
+    "scaffoldBackgroundColor": "1B89A1",
+    "primaryButtonColor": "9d6055",
+    "inactiveTextColor": "CE9B9B",
+    "contentTextColor": "000000",
+    "pastScheduleCardColor": "778899",
+    "secondaryScheduleCardColor": "1B89A1",
+    "primaryScheduleCardColor": "055d70"
+  },
+  "app": {
+    "timeZoneOffset": "19800"
+  }
+}

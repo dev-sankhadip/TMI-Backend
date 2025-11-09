@@ -1,0 +1,237 @@
+openapi: 3.0.0
+info:
+  title: TMI Backend API
+  version: 1.0.0
+  description: API documentation for TMI Backend
+servers:
+  - url: https://dec26fb439b2.ngrok-free.app
+paths:
+  /auth/login:
+    post:
+      summary: Login user and get JWT tokens
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required: [email, password]
+      responses:
+        200:
+          description: Login successful, returns access and refresh tokens, userId, and email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+                  userId:
+                    type: string
+                  email:
+                    type: string
+                    format: email
+        401:
+          description: Invalid credentials
+  /auth/refresh-token:
+    post:
+      summary: Refresh JWT access token
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+              required: [refreshToken]
+      responses:
+        200:
+          description: New access token, userId, and email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  userId:
+                    type: string
+                  email:
+                    type: string
+                    format: email
+        401:
+          description: Invalid or expired refresh token
+  /auth:
+    post:
+      summary: Create a new user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                otp:
+                  type: string
+                  nullable: true
+                password:
+                  type: string
+              required: [firstName, lastName, email]
+      responses:
+        201:
+          description: User created successfully
+        400:
+          description: Invalid input
+    put:
+      summary: Update an existing user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  format: email
+              required: [userId]
+      responses:
+        200:
+          description: User updated successfully
+        400:
+          description: Invalid input
+    get:
+      summary: Get current user details
+      tags: [Auth]
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: User found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  email:
+                    type: string
+                    format: email
+                  createdOn:
+                    type: string
+                    format: date-time
+                  updatedOn:
+                    type: string
+                    format: date-time
+                  isActive:
+                    type: string
+        404:
+          description: User not found
+  /auth/test-delete:
+    delete:
+      summary: Delete a user by email (TEST ONLY)
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+              required: [email]
+      responses:
+        200:
+          description: User deleted (if existed)
+        400:
+          description: Email required
+        500:
+          description: Error deleting user
+
+  /auth/forgot-password:
+    post:
+      summary: Send OTP for password reset
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+              required: [email]
+      responses:
+        200:
+          description: OTP sent to your email.
+        400:
+          description: Email is required.
+        404:
+          description: User not found.
+        500:
+          description: Failed to send password reset OTP email.
+
+  /auth/reset-password:
+    post:
+      summary: Reset password using OTP
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                otp:
+                  type: string
+                password:
+                  type: string
+              required: [email, otp, password]
+      responses:
+        200:
+          description: Password updated successfully.
+        400:
+          description: Email, OTP, and new password are required or invalid/expired OTP.
+        404:
+          description: User not found.
+        500:
+          description: Error updating password.
