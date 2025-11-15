@@ -1,11 +1,11 @@
 {
-    "name": "bloc_counter",
-    "short_name": "bloc_counter",
+    "name": "TiMA",
+    "short_name": "TiMA",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Time management app with AI assistant",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
