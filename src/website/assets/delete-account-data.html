@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Account & Data Deletion – TiMA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      background: #f7f7f7;
+      color: #222;
+    }
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 24px 18px 40px;
+      background: #fff;
+    }
+    h1 { font-size: 1.8rem; margin-bottom: 0.2rem; }
+    h2 { margin-top: 1.8rem; font-size: 1.3rem; }
+    p, li { line-height: 1.6; }
+    .highlight { font-weight: 600; }
+    .success-box {
+      display: none;
+      padding: 12px;
+      margin-top: 16px;
+      background: #e6ffe6;
+      border-left: 4px solid #33aa33;
+      font-size: 0.9rem;
+    }
+    .input-box {
+      margin: 20px 0 10px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 8px;
+    }
+    button {
+      padding: 12px 20px;
+      background: #1976d2;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:active { opacity: 0.9; }
+    .box {
+      border-left: 4px solid #1976d2;
+      background: #f0f6ff;
+      padding: 12px;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+
+    <h1>Delete Account & Data – TiMA</h1>
+    <p>
+      You may request deletion of your TiMA account using the form below.
+      Your email must match the account email used in the app.
+    </p>
+
+    <h2>Submit Account Deletion Request</h2>
+    <p>Please enter your account email to proceed:</p>
+
+    <!-- FORM -->
+    <form id="deleteForm">
+      <div class="input-box">
+        <label>Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="yourname@example.com" />
+      </div>
+
+      <button type="submit">Request Account Deletion</button>
+    </form>
+
+    <!-- SUCCESS MESSAGE -->
+    <div id="successMsg" class="success-box">
+      ✔ Your deletion request has been submitted.  
+      We will process it soon.
+    </div>
+
+    <script>
+      document.getElementById("deleteForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+
+        try {
+          await fetch("/delete-account-data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email })
+          });
+        } catch (error) {
+        }
+
+        document.getElementById("successMsg").style.display = "block";
+        document.getElementById("deleteForm").reset();
+      });
+    </script>
+
+    <h2>What Data Will Be Deleted</h2>
+    <ul>
+      <li>Account profile (name, email)</li>
+      <li>All tasks, schedules, plans, reviews</li>
+      <li>Activity logs linked to your account</li>
+      <li>App preferences and synced data</li>
+    </ul>
+
+    <h2>What Data May Be Retained</h2>
+    <ul>
+      <li>Legally required records (billing/tax)</li>
+      <li>Security logs (kept for up to 90 days)</li>
+      <li>Anonymized analytics (cannot identify you)</li>
+    </ul>
+
+    <h2>Processing Time</h2>
+    <p>Deletion requests are completed within <span class="highlight">30 days</span>.</p>
+
+    <h2>Support</h2>
+    <p>Email us anytime at: <span class="highlight">noreply.tima.app@gmail.com</span></p>
+
+  </main>
+</body>
+</html>
